@@ -74,7 +74,17 @@ const createTiles = (dinos) => {
     console.log(element);
     const gridItem = document.createElement('div');
     gridItem.classList.add('grid-item');
-    gridItem.appendChild(document.createTextNode(element.species));
+
+    for (property in element) {
+      gridItem.appendChild(
+        document.createTextNode(
+          `${property.charAt(0).toUpperCase() + property.slice(1)}: ${
+            element[property]
+          }\n`
+        )
+      );
+      gridItem.appendChild(document.createElement('br'));
+    }
     const grid = document.getElementById('grid');
     grid.appendChild(gridItem);
   });
