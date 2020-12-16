@@ -44,19 +44,39 @@ function Dino(species, weight, height, diet, where, when, fact) {
 const dinos = [];
 
 // Create Human Object
-function human(name, height, weight, diet) {
+function Human(name, heightFeet, heightInches, weight, diet) {
   this.name = name;
-  this.height = height;
+  this.heightFeet = heightFeet;
+  this.heightInches = heightInches;
   this.weight = weight;
   this.diet = diet;
   this.image = 'images/human.png';
 }
 
 // Use IIFE to get human data from form
+// No IIFE used here.
+const getUserData = function () {
+  const name = document.getElementById('name');
+  const heightFeet = document.getElementById('feet');
+  const heightInches = document.getElementById('inches');
+  const weight = document.getElementById('weight');
+  const diet = document.getElementById('diet');
+  const form = document.getElementById('dino-compare');
+
+  const human = new Human(
+    name.value,
+    heightFeet.value,
+    heightInches.value,
+    weight.value,
+    diet.options[diet.selectedIndex].text
+  );
+  return human;
+};
 
 // Create Dino Compare Method 1
 // NOTE: Weight in JSON file is in lbs, height in inches.
 const compare1 = () => {
+  const human = getUserData();
   hideForm();
   createTiles(dinos);
 };
