@@ -44,15 +44,6 @@ function Dino(species, weight, height, diet, where, when, fact) {
 const dinos = [];
 
 // Create Human Object
-function Human(name, heightFeet, heightInches, weight, diet) {
-  this.name = name;
-  this.heightFeet = heightFeet;
-  this.heightInches = heightInches;
-  this.weight = weight;
-  this.diet = diet;
-  this.image = 'images/human.png';
-}
-
 // Use IIFE to get human data from form
 // No IIFE used here.
 const getUserData = function () {
@@ -63,7 +54,12 @@ const getUserData = function () {
   const weight = form.elements.weight.value;
   const myDiet = form.elements.diet.options[diet.selectedIndex].text;
 
-  return new Human(name, feet, inches, weight, myDiet);
+  const human = new Dino(name, weight, feet, myDiet);
+  human.feet = feet;
+  human.inches = inches;
+  human.image = 'images/human.png';
+
+  return human;
 };
 
 // Create Dino Compare Method 1
@@ -92,7 +88,7 @@ const createTiles = (dinos, human) => {
 
     if (index === 4) {
       var text = document.createElement('h3');
-      text.innerText = `${human.name}`;
+      text.innerText = `${human.species}`;
       gridItem.appendChild(text);
       const img = document.createElement('img');
       img.src = human.image;
