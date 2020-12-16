@@ -71,7 +71,7 @@ const getUserData = function () {
 const compare1 = () => {
   const human = getUserData();
   hideForm();
-  createTiles(dinos);
+  createTiles(dinos, human);
 };
 
 // Create Dino Compare Method 2
@@ -82,7 +82,7 @@ const compare1 = () => {
 
 // Generate Tiles for each Dino in Array
 // Add tiles to DOM
-const createTiles = (dinos) => {
+const createTiles = (dinos, human) => {
   dinos.forEach((element) => {
     console.log(element);
     const gridItem = document.createElement('div');
