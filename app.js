@@ -68,6 +68,7 @@ const compare1 = () => {
 // NOTE: Weight in JSON file is in lbs, height in inches.
 
 // Generate Tiles for each Dino in Array
+// Add tiles to DOM
 const createTiles = (dinos) => {
   dinos.forEach((element) => {
     console.log(element);
@@ -75,21 +76,21 @@ const createTiles = (dinos) => {
     gridItem.classList.add('grid-item');
 
     for (property in element) {
-      gridItem.appendChild(
-        document.createTextNode(
-          `${property.charAt(0).toUpperCase() + property.slice(1)}: ${
-            element[property]
-          }\n`
-        )
-      );
-      gridItem.appendChild(document.createElement('br'));
+      if (property !== 'image') {
+        gridItem.appendChild(
+          document.createTextNode(
+            `${property.charAt(0).toUpperCase() + property.slice(1)}: ${
+              element[property]
+            }\n`
+          )
+        );
+        gridItem.appendChild(document.createElement('br'));
+      }
     }
     const grid = document.getElementById('grid');
     grid.appendChild(gridItem);
   });
 };
-
-// Add tiles to DOM
 
 // Remove form from screen
 const hideForm = () => {
@@ -100,10 +101,11 @@ const hideForm = () => {
 // On button click, prepare and display infographic
 document.getElementById('btn').addEventListener('click', compare1);
 
+// Init dino data.
 window.onload = async () => {
-  await getDinoData().then((result) =>
-    result.forEach((element) => {
+  await getDinoData().then((result) => {
+    parseDinosToArray(result).forEach((element) => {
       dinos.push(element);
-    })
-  );
+    });
+  });
 };
