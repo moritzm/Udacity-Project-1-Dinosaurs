@@ -57,8 +57,7 @@ function human(name, height, weight, diet) {
 // Create Dino Compare Method 1
 // NOTE: Weight in JSON file is in lbs, height in inches.
 const compare1 = () => {
-  const test = document.querySelector('#dino-compare');
-  test.style.display = test.style.display != 'none' ? 'none' : 'block';
+  hideForm();
   createTiles(dinos);
 };
 
@@ -93,6 +92,10 @@ const createTiles = (dinos) => {
 // Add tiles to DOM
 
 // Remove form from screen
+const hideForm = () => {
+  const test = document.querySelector('#dino-compare');
+  test.style.display = test.style.display != 'none' ? 'none' : 'block';
+};
 
 // On button click, prepare and display infographic
 document.getElementById('btn').addEventListener('click', compare1);
