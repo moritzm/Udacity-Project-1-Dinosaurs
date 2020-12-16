@@ -56,21 +56,14 @@ function Human(name, heightFeet, heightInches, weight, diet) {
 // Use IIFE to get human data from form
 // No IIFE used here.
 const getUserData = function () {
-  const name = document.getElementById('name');
-  const heightFeet = document.getElementById('feet');
-  const heightInches = document.getElementById('inches');
-  const weight = document.getElementById('weight');
-  const diet = document.getElementById('diet');
-  const form = document.getElementById('dino-compare');
+  const form = document.forms['dino-compare'];
+  const name = form.elements.name.value;
+  const inches = form.elements.inches.value;
+  const feet = form.elements.feet.value;
+  const weight = form.elements.weight.value;
+  const myDiet = form.elements.diet.options[diet.selectedIndex].text;
 
-  const human = new Human(
-    name.value,
-    heightFeet.value,
-    heightInches.value,
-    weight.value,
-    diet.options[diet.selectedIndex].text
-  );
-  return human;
+  return new Human(name, feet, inches, weight, myDiet);
 };
 
 // Create Dino Compare Method 1
