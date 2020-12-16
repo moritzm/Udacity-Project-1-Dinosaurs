@@ -83,29 +83,18 @@ const compare1 = () => {
 // Generate Tiles for each Dino in Array
 // Add tiles to DOM
 const createTiles = (dinos, human) => {
-  dinos.forEach((element) => {
+  const grid = document.getElementById('grid');
+  dinos.forEach((element, index) => {
     console.log(element);
     const gridItem = document.createElement('div');
     gridItem.classList.add('grid-item');
 
-    for (property in element) {
-      if (property !== 'image') {
-        gridItem.appendChild(
-          document.createTextNode(
-            `${property.charAt(0).toUpperCase() + property.slice(1)}: ${
-              element[property]
-            }\n`
-          )
-        );
-      } else {
-        const img = document.createElement('img');
-        img.src = element[property];
-        gridItem.prepend(img);
-      }
-      gridItem.appendChild(document.createElement('br'));
+    if (index === 4) {
+      grid.appendChild(createTileContent(human, gridItem));
+      return;
     }
-    const grid = document.getElementById('grid');
-    grid.appendChild(gridItem);
+
+    grid.appendChild(createTileContent(element, gridItem));
   });
 };
 
@@ -125,4 +114,25 @@ window.onload = async () => {
       dinos.push(element);
     });
   });
+};
+
+const createTileContent = (element, gridItem) => {
+  for (property in element) {
+    if (property !== 'image') {
+      gridItem.appendChild(
+        document.createTextNode(
+          `${property.charAt(0).toUpperCase() + property.slice(1)}: ${
+            element[property]
+          }`
+        )
+      );
+    } else {
+      const img = document.createElement('img');
+      img.src = element[property];
+      gridItem.prepend(img);
+    }
+    gridItem.appendChild(document.createElement('br'));
+  }
+
+  return gridItem;
 };
