@@ -91,12 +91,16 @@ const createTiles = (dinos, human) => {
     gridItem.classList.add('grid-item');
 
     if (index === 4) {
-      gridItem.appendChild(document.createTextNode(`${human.name}`));
+      var text = document.createElement('h3');
+      text.innerText = `${human.name}`;
+      gridItem.appendChild(text);
       const img = document.createElement('img');
       img.src = human.image;
       gridItem.appendChild(img);
     } else {
-      gridItem.appendChild(document.createTextNode(`${element.species}`));
+      var text = document.createElement('h3');
+      text.innerText = `${element.species}`;
+      gridItem.appendChild(text);
       const img = document.createElement('img');
       img.src = element.image;
       gridItem.appendChild(img);
