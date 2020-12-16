@@ -97,8 +97,12 @@ const createTiles = (dinos) => {
             }\n`
           )
         );
-        gridItem.appendChild(document.createElement('br'));
+      } else {
+        const img = document.createElement('img');
+        img.src = element[property];
+        gridItem.prepend(img);
       }
+      gridItem.appendChild(document.createElement('br'));
     }
     const grid = document.getElementById('grid');
     grid.appendChild(gridItem);
