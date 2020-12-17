@@ -54,13 +54,39 @@ function Dino(species, weight, height, diet, where, when, fact) {
   this.image = 'images/' + species.toLowerCase() + '.png';
 }
 
+/**
+ * @description Dinos factory function
+ * @method addDino Add a dino to array
+ * @method shuffle Shuffles the dino array
+ * @method getDinos Retuurn all dinos
+ */
+const DinosFactory = () => {
+  const dinos = [];
+
+  return {
+    addDino: function (dino) {
+      dinos.push(dino);
+    },
+    shuffle: function shuffle() {
+      for (let i = dinos.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [dinos[i], dinos[j]] = [dinos[j], dinos[i]];
+      }
+      return dinos;
+    },
+    getDinos: function () {
+      return dinos;
+    },
+  };
+};
+
 // Create Dino Objects
-const dinos = [];
+const dinosFactory = DinosFactory();
 
 // Create Human Object
 // Use IIFE to get human data from form
 // No IIFE used here.
-const getHumanData = function () {
+const getHumanData = () => {
   const form = document.forms['dino-compare'];
   const name = form.elements.name.value;
   const inches = form.elements.inches.value;
@@ -76,29 +102,29 @@ const getHumanData = function () {
   return human;
 };
 
-const myBusinessLogic = () => {
+const myBusinessLogic = (dinos) => {
   const human = getHumanData();
-  shuffle(dinos);
+  dinos.shuffle();
 
-  dinos.forEach((dino) => {
+  dinos.getDinos().forEach((dino) => {
     compareWeight(dino, human);
   });
 
   hideForm();
-  createTiles(dinos, human);
+  createTiles(dinos.getDinos(), human);
 };
 
-/**
- * Shuffles array in place. ES6 version
- * @param {Array} a items An array containing the items.
- */
-function shuffle(a) {
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
+// /**
+//  * Shuffles array in place. ES6 version
+//  * @param {Array} a items An array containing the items.
+//  */
+// function shuffle(a) {
+//   for (let i = a.length - 1; i > 0; i--) {
+//     const j = Math.floor(Math.random() * (i + 1));
+//     [a[i], a[j]] = [a[j], a[i]];
+//   }
+//   return a;
+// }
 
 // Create Dino Compare Method 1
 // NOTE: Weight in JSON file is in lbs, height in inches.
@@ -134,7 +160,7 @@ const compareHeight = (dino, human) => {
 
 // Create Dino Compare Method 3
 // NOTE: Weight in JSON file is in lbs, height in inches.
-const compareDiet = (evt, dino, human) => {
+const compareDiet = (dino, human) => {
   if (dino.species === 'Pigeon') {
     return;
   }
@@ -201,13 +227,15 @@ const hideForm = () => {
 // document.getElementById('btn').addEventListener('click', function () {
 //   compareWeight(dinos[0], getHumanData());
 // });
-document.getElementById('btn').addEventListener('click', myBusinessLogic);
+document.getElementById('btn').addEventListener('click', function () {
+  myBusinessLogic(dinosFactory);
+});
 
 // Init dino data.
 window.onload = async () => {
   await getDinoData().then((result) => {
     parseDinosToArray(result).forEach((element) => {
-      dinos.push(element);
+      dinosFactory.addDino(element);
     });
   });
 };
