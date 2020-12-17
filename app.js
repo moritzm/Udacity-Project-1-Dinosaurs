@@ -1,4 +1,7 @@
-// Grab Dinos from JSON file
+/**
+ * @description Grab Dinos from JSON file
+ * @returns {Array} Array of Dinos
+ */
 const getDinoData = async () => {
   const fetchedData = await fetch('./dino.json');
   const data = await fetchedData.json();
@@ -64,17 +67,64 @@ const getUserData = function () {
 
 // Create Dino Compare Method 1
 // NOTE: Weight in JSON file is in lbs, height in inches.
-const compare1 = () => {
-  const human = getUserData();
+const compareWeight = (dino, human) => {
   hideForm();
+
+  if (dino.species === 'Pigeon') {
+    createTiles(dinos, human);
+    return;
+  }
+
+  if (dino.weight > human.weight * 100) {
+    dino.fact = 'You are like a feather compared this dino, little guy!';
+  } else if (dino.weight < human.weight * 100) {
+    dino.fact = 'The dinos diet is much more better then yours.';
+  } else if (dino.weight - 100 < human.weight) {
+    dino.fact = 'Maybe you are related. You eat the same stuff.';
+  }
+
   createTiles(dinos, human);
 };
 
 // Create Dino Compare Method 2
 // NOTE: Weight in JSON file is in lbs, height in inches.
+const compareHeight = (dino, human) => {
+  hideForm();
+
+  if (dino.species === 'Pigeon') {
+    createTiles(dinos, human);
+    return;
+  }
+
+  if (dino.height > human.height * 100) {
+    dino.fact = 'Too small. You should get a ladder to feet this big guy.';
+  } else if (dino.height < human.height * 100) {
+    dino.fact = 'Uuups...be carefull not to stump onto this cute dino.';
+  } else if (dino.height - 100 < human.height) {
+    dino.fact = "Awesome...you can look into dino's eyes";
+  }
+};
 
 // Create Dino Compare Method 3
 // NOTE: Weight in JSON file is in lbs, height in inches.
+const compareDiet = (evt, dino, human) => {
+  hideForm();
+
+  if (dino.species === 'Pigeon') {
+    createTiles(dinos, human);
+    return;
+  }
+
+  if (dino.diet === human.diet) {
+    dino.fact =
+      'You eat the same stuff. Be carefull next time when you go eat outside.';
+  } else if (dino.diet !== human.diet) {
+    dino.fact =
+      'Ok, you do not share your eat, so go out, this dino will not care.';
+  } else if (dino.diet === 'carnivor') {
+    dino.fact = 'Be carefull, this dino might eat you.';
+  }
+};
 
 // Generate Tiles for each Dino in Array
 // Add tiles to DOM
@@ -82,26 +132,32 @@ const createTiles = (dinos, human) => {
   const grid = document.getElementById('grid');
 
   dinos.forEach((element, index) => {
-    console.log(element);
     const gridItem = document.createElement('div');
     gridItem.classList.add('grid-item');
 
+    // tile 4 must be the human tile, we check of index 4
     if (index === 4) {
-      var text = document.createElement('h3');
-      text.innerText = `${human.species}`;
-      gridItem.appendChild(text);
+      // human tile
+      const header = document.createElement('h3');
+      header.innerText = human.species;
+      gridItem.appendChild(header);
+
       const img = document.createElement('img');
       img.src = human.image;
       gridItem.appendChild(img);
     } else {
-      var text = document.createElement('h3');
-      text.innerText = `${element.species}`;
-      gridItem.appendChild(text);
+      // create dino tile
+      const header = document.createElement('h3');
+      header.innerText = element.species;
+      gridItem.appendChild(header);
+
       const img = document.createElement('img');
       img.src = element.image;
       gridItem.appendChild(img);
 
-      gridItem.appendChild(document.createTextNode(`${element.fact}`));
+      const p = document.createElement('p');
+      p.innerText = element.fact;
+      gridItem.appendChild(p);
     }
 
     grid.appendChild(gridItem);
@@ -115,7 +171,9 @@ const hideForm = () => {
 };
 
 // On button click, prepare and display infographic
-document.getElementById('btn').addEventListener('click', compare1);
+document.getElementById('btn').addEventListener('click', function () {
+  compareWeight(dinos[0], getUserData());
+});
 
 // Init dino data.
 window.onload = async () => {
