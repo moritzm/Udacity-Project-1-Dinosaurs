@@ -1,3 +1,53 @@
+// Create Dino Compare Method 1
+// NOTE: Weight in JSON file is in lbs, height in inches.
+const compareWeight = (dino, human) => {
+  if (dino.species === 'Pigeon') {
+    return;
+  }
+
+  if (dino.weight > human.weight * 100) {
+    dino.fact = 'You are like a feather compared this dino, little guy!';
+  } else if (dino.weight < human.weight * 100) {
+    dino.fact = 'The dinos diet is much more better then yours.';
+  } else if (dino.weight - 100 < human.weight) {
+    dino.fact = 'Maybe you are related. You eat the same stuff.';
+  }
+};
+
+// Create Dino Compare Method 2
+// NOTE: Weight in JSON file is in lbs, height in inches.
+const compareHeight = (dino, human) => {
+  if (dino.species === 'Pigeon') {
+    return;
+  }
+
+  if (dino.height > human.height * 100) {
+    dino.fact = 'Too small. You should get a ladder to feet this big guy.';
+  } else if (dino.height < human.height * 100) {
+    dino.fact = 'Uuups...be carefull not to stump onto this cute dino.';
+  } else if (dino.height - 100 < human.height) {
+    dino.fact = "Awesome...you can look into dino's eyes";
+  }
+};
+
+// Create Dino Compare Method 3
+// NOTE: Weight in JSON file is in lbs, height in inches.
+const compareDiet = (dino, human) => {
+  if (dino.species === 'Pigeon') {
+    return;
+  }
+
+  if (dino.diet === human.diet) {
+    dino.fact =
+      'You eat the same stuff. Be carefull next time when you go eat outside.';
+  } else if (dino.diet !== human.diet) {
+    dino.fact =
+      'Ok, you do not share your eat, so go out, this dino will not care.';
+  } else if (dino.diet === 'carnivor') {
+    dino.fact = 'Be carefull, this dino might eat you.';
+  }
+};
+
 /**
  * @description Grab Dinos from JSON file
  * @returns {Array} Array of Dinos
@@ -62,6 +112,7 @@ function Dino(species, weight, height, diet, where, when, fact) {
  */
 const DinosFactory = () => {
   const dinos = [];
+  const compareMethods = [compareWeight, compareDiet, compareHeight];
 
   return {
     addDino: function (dino) {
@@ -76,6 +127,9 @@ const DinosFactory = () => {
     },
     getDinos: function () {
       return dinos;
+    },
+    getCompareMethod: function (number) {
+      return compareMethods[number];
     },
   };
 };
@@ -106,74 +160,14 @@ const myBusinessLogic = (dinos) => {
   const human = getHumanData();
   dinos.shuffle();
 
+  const randomNumber = Math.floor(Math.random() * 3);
+  const compareMethod = dinos.getCompareMethod(randomNumber);
   dinos.getDinos().forEach((dino) => {
-    compareWeight(dino, human);
+    compareMethod(dino, human);
   });
 
   hideForm();
   createTiles(dinos.getDinos(), human);
-};
-
-// /**
-//  * Shuffles array in place. ES6 version
-//  * @param {Array} a items An array containing the items.
-//  */
-// function shuffle(a) {
-//   for (let i = a.length - 1; i > 0; i--) {
-//     const j = Math.floor(Math.random() * (i + 1));
-//     [a[i], a[j]] = [a[j], a[i]];
-//   }
-//   return a;
-// }
-
-// Create Dino Compare Method 1
-// NOTE: Weight in JSON file is in lbs, height in inches.
-const compareWeight = (dino, human) => {
-  if (dino.species === 'Pigeon') {
-    return;
-  }
-
-  if (dino.weight > human.weight * 100) {
-    dino.fact = 'You are like a feather compared this dino, little guy!';
-  } else if (dino.weight < human.weight * 100) {
-    dino.fact = 'The dinos diet is much more better then yours.';
-  } else if (dino.weight - 100 < human.weight) {
-    dino.fact = 'Maybe you are related. You eat the same stuff.';
-  }
-};
-
-// Create Dino Compare Method 2
-// NOTE: Weight in JSON file is in lbs, height in inches.
-const compareHeight = (dino, human) => {
-  if (dino.species === 'Pigeon') {
-    return;
-  }
-
-  if (dino.height > human.height * 100) {
-    dino.fact = 'Too small. You should get a ladder to feet this big guy.';
-  } else if (dino.height < human.height * 100) {
-    dino.fact = 'Uuups...be carefull not to stump onto this cute dino.';
-  } else if (dino.height - 100 < human.height) {
-    dino.fact = "Awesome...you can look into dino's eyes";
-  }
-};
-
-// Create Dino Compare Method 3
-// NOTE: Weight in JSON file is in lbs, height in inches.
-const compareDiet = (dino, human) => {
-  if (dino.species === 'Pigeon') {
-    return;
-  }
-
-  if (dino.diet === human.diet) {
-    dino.fact =
-      'You eat the same stuff. Be carefull next time when you go eat outside.';
-  } else if (dino.diet !== human.diet) {
-    dino.fact =
-      'Ok, you do not share your eat, so go out, this dino will not care.';
-  } else if (dino.diet === 'carnivor') {
-    dino.fact = 'Be carefull, this dino might eat you.';
-  }
 };
 
 // Generate Tiles for each Dino in Array
@@ -223,10 +217,6 @@ const hideForm = () => {
   test.style.display = test.style.display != 'none' ? 'none' : 'block';
 };
 
-// On button click, prepare and display infographic
-// document.getElementById('btn').addEventListener('click', function () {
-//   compareWeight(dinos[0], getHumanData());
-// });
 document.getElementById('btn').addEventListener('click', function () {
   myBusinessLogic(dinosFactory);
 });
