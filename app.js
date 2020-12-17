@@ -60,7 +60,7 @@ const dinos = [];
 // Create Human Object
 // Use IIFE to get human data from form
 // No IIFE used here.
-const getUserData = function () {
+const getHumanData = function () {
   const form = document.forms['dino-compare'];
   const name = form.elements.name.value;
   const inches = form.elements.inches.value;
@@ -74,6 +74,18 @@ const getUserData = function () {
   human.image = 'images/human.png';
 
   return human;
+};
+
+const myBusinessLogic = () => {
+  const human = getHumanData();
+  shuffle(dinos);
+
+  dinos.forEach((dino) => {
+    compareWeight(dino, human);
+  });
+
+  hideForm();
+  createTiles(dinos, human);
 };
 
 /**
@@ -91,10 +103,7 @@ function shuffle(a) {
 // Create Dino Compare Method 1
 // NOTE: Weight in JSON file is in lbs, height in inches.
 const compareWeight = (dino, human) => {
-  hideForm();
-
   if (dino.species === 'Pigeon') {
-    createTiles(dinos, human);
     return;
   }
 
@@ -105,17 +114,12 @@ const compareWeight = (dino, human) => {
   } else if (dino.weight - 100 < human.weight) {
     dino.fact = 'Maybe you are related. You eat the same stuff.';
   }
-
-  createTiles(dinos, human);
 };
 
 // Create Dino Compare Method 2
 // NOTE: Weight in JSON file is in lbs, height in inches.
 const compareHeight = (dino, human) => {
-  hideForm();
-
   if (dino.species === 'Pigeon') {
-    createTiles(dinos, human);
     return;
   }
 
@@ -131,10 +135,7 @@ const compareHeight = (dino, human) => {
 // Create Dino Compare Method 3
 // NOTE: Weight in JSON file is in lbs, height in inches.
 const compareDiet = (evt, dino, human) => {
-  hideForm();
-
   if (dino.species === 'Pigeon') {
-    createTiles(dinos, human);
     return;
   }
 
@@ -153,8 +154,6 @@ const compareDiet = (evt, dino, human) => {
 // Add tiles to DOM
 const createTiles = (dinos, human) => {
   const grid = document.getElementById('grid');
-
-  shuffle(dinos);
 
   dinos.forEach((element, index) => {
     const gridItem = document.createElement('div');
@@ -199,9 +198,10 @@ const hideForm = () => {
 };
 
 // On button click, prepare and display infographic
-document.getElementById('btn').addEventListener('click', function () {
-  compareWeight(dinos[0], getUserData());
-});
+// document.getElementById('btn').addEventListener('click', function () {
+//   compareWeight(dinos[0], getHumanData());
+// });
+document.getElementById('btn').addEventListener('click', myBusinessLogic);
 
 // Init dino data.
 window.onload = async () => {
