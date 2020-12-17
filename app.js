@@ -251,6 +251,13 @@ document.getElementById('btn').addEventListener('click', function () {
 });
 
 /**
+ * @description Callback for event listener.
+ */
+const callBack = () => {
+  myBusinessLogic(dinosFactory);
+};
+
+/**
  * Init dino data from local json file when windows is loaded.
  */
 window.onload = async () => {
