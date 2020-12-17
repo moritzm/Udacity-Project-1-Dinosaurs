@@ -76,6 +76,18 @@ const getUserData = function () {
   return human;
 };
 
+/**
+ * Shuffles array in place. ES6 version
+ * @param {Array} a items An array containing the items.
+ */
+function shuffle(a) {
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
 // Create Dino Compare Method 1
 // NOTE: Weight in JSON file is in lbs, height in inches.
 const compareWeight = (dino, human) => {
@@ -142,6 +154,8 @@ const compareDiet = (evt, dino, human) => {
 const createTiles = (dinos, human) => {
   const grid = document.getElementById('grid');
 
+  shuffle(dinos);
+
   dinos.forEach((element, index) => {
     const gridItem = document.createElement('div');
     gridItem.classList.add('grid-item');
@@ -149,6 +163,9 @@ const createTiles = (dinos, human) => {
     // tile 4 must be the human tile, we check of index 4
     if (index === 4) {
       // human tile
+      const gridItem = document.createElement('div');
+      gridItem.classList.add('grid-item');
+
       const header = document.createElement('h3');
       header.innerText = human.species;
       gridItem.appendChild(header);
@@ -156,20 +173,20 @@ const createTiles = (dinos, human) => {
       const img = document.createElement('img');
       img.src = human.image;
       gridItem.appendChild(img);
-    } else {
-      // create dino tile
-      const header = document.createElement('h3');
-      header.innerText = element.species;
-      gridItem.appendChild(header);
-
-      const img = document.createElement('img');
-      img.src = element.image;
-      gridItem.appendChild(img);
-
-      const p = document.createElement('p');
-      p.innerText = element.fact;
-      gridItem.appendChild(p);
+      grid.appendChild(gridItem);
     }
+    // create dino tile
+    const header = document.createElement('h3');
+    header.innerText = element.species;
+    gridItem.appendChild(header);
+
+    const img = document.createElement('img');
+    img.src = element.image;
+    gridItem.appendChild(img);
+
+    const p = document.createElement('p');
+    p.innerText = element.fact;
+    gridItem.appendChild(p);
 
     grid.appendChild(gridItem);
   });
