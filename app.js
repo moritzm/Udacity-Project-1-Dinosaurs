@@ -31,6 +31,17 @@ const parseDinosToArray = (dinosJSON) => {
   return null;
 };
 
+/**
+ * @description Dinos
+ * @constructor
+ * @param {string} species - The title of the book
+ * @param {string} weight - The author of the book
+ * @param {string} height - The author of the book
+ * @param {string} diet - The author of the book
+ * @param {string} where - The author of the book
+ * @param {string} when - The author of the book
+ * @param {string} fact - The author of the book
+ */
 // Create Dino Constructor
 function Dino(species, weight, height, diet, where, when, fact) {
   this.species = species;
