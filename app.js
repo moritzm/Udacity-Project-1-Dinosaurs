@@ -1,5 +1,8 @@
-// Create Dino Compare Method 1
-// NOTE: Weight in JSON file is in lbs, height in inches.
+/**
+ * @description Compare weight.
+ * @param {Dino} dino
+ * @param {Dino} human
+ */
 const compareWeight = (dino, human) => {
   if (dino.species === 'Pigeon') {
     return;
@@ -14,8 +17,11 @@ const compareWeight = (dino, human) => {
   }
 };
 
-// Create Dino Compare Method 2
-// NOTE: Weight in JSON file is in lbs, height in inches.
+/**
+ * @description Compare height.
+ * @param {Dino} dino
+ * @param {Dino} human
+ */
 const compareHeight = (dino, human) => {
   if (dino.species === 'Pigeon') {
     return;
@@ -30,8 +36,11 @@ const compareHeight = (dino, human) => {
   }
 };
 
-// Create Dino Compare Method 3
-// NOTE: Weight in JSON file is in lbs, height in inches.
+/**
+ * @description Compare diet.
+ * @param {Dino} dino
+ * @param {Dino} human
+ */
 const compareDiet = (dino, human) => {
   if (dino.species === 'Pigeon') {
     return;
@@ -49,8 +58,8 @@ const compareDiet = (dino, human) => {
 };
 
 /**
- * @description Grab Dinos from JSON file
- * @returns {Array} Array of Dinos
+ * @description Grab Dinos from JSON file.
+ * @returns {Array} Array of Dinos.
  */
 const getDinoData = async () => {
   const fetchedData = await fetch('./dino.json');
@@ -58,8 +67,11 @@ const getDinoData = async () => {
   return data.Dinos;
 };
 
-// Parse given dinos json array.
-// Return a new custom dinos array containing Dino objects.
+/**
+ * @description Parse a json string into an array.
+ * @param {string} JSON - dinosJSON
+ * @returns {Dinos} Array or null
+ */
 const parseDinosToArray = (dinosJSON) => {
   if (dinosJSON) {
     const dinoArray = [];
@@ -67,8 +79,8 @@ const parseDinosToArray = (dinosJSON) => {
       dinoArray.push(
         new Dino(
           element.species,
-          element.weight,
-          element.height,
+          parseInt(element.weight),
+          parseInt(element.height),
           element.diet,
           element.where,
           element.when,
@@ -85,8 +97,8 @@ const parseDinosToArray = (dinosJSON) => {
  * @description Dinos
  * @constructor
  * @param {string} species - The title of the book
- * @param {string} weight - The author of the book
- * @param {string} height - The author of the book
+ * @param {int} weight - The author of the book
+ * @param {int} height - The author of the book
  * @param {string} diet - The author of the book
  * @param {string} where - The author of the book
  * @param {string} when - The author of the book
@@ -105,10 +117,10 @@ function Dino(species, weight, height, diet, where, when, fact) {
 }
 
 /**
- * @description Dinos factory function
- * @method addDino Add a dino to array
- * @method shuffle Shuffles the dino array
- * @method getDinos Retuurn all dinos
+ * @description Dinos factory function.
+ * @method addDino Add a dino to array.
+ * @method shuffle Shuffles the dino array.
+ * @method getDinos Retuurn all dinos.
  */
 const DinosFactory = () => {
   const dinos = [];
@@ -134,19 +146,24 @@ const DinosFactory = () => {
   };
 };
 
-// Create Dino Objects
+/**
+ * @description Creates a dino object from DinosFactory.
+ */
 const dinosFactory = DinosFactory();
 
-// Create Human Object
-// Use IIFE to get human data from form
-// No IIFE used here.
+/**
+ * @description Get human data from forms.
+ * @returns human object using Dino constructor.
+ */
 const getHumanData = () => {
   const form = document.forms['dino-compare'];
   const name = form.elements.name.value;
-  const inches = form.elements.inches.value;
-  const feet = form.elements.feet.value;
-  const weight = form.elements.weight.value;
-  const myDiet = form.elements.diet.options[diet.selectedIndex].text;
+  const inches = parseInt(form.elements.inches.value);
+  const feet = parseInt(form.elements.feet.value);
+  const weight = parseInt(form.elements.weight.value);
+  const myDiet = form.elements.diet.options[
+    diet.selectedIndex
+  ].text.toLowerCase();
 
   const human = new Dino(name, weight, feet, myDiet);
   human.feet = feet;
@@ -156,6 +173,10 @@ const getHumanData = () => {
   return human;
 };
 
+/**
+ * @description Business logic for hole app.
+ * @param {DinosFactory} dinos
+ */
 const myBusinessLogic = (dinos) => {
   const human = getHumanData();
   dinos.shuffle();
@@ -170,8 +191,11 @@ const myBusinessLogic = (dinos) => {
   createTiles(dinos.getDinos(), human);
 };
 
-// Generate Tiles for each Dino in Array
-// Add tiles to DOM
+/**
+ * @description Create tiles from given dinos and human.
+ * @param {Array} dinos - All dinos.
+ * @param {Dino} human  - Human object created from Dino.
+ */
 const createTiles = (dinos, human) => {
   const grid = document.getElementById('grid');
 
@@ -211,17 +235,24 @@ const createTiles = (dinos, human) => {
   });
 };
 
-// Remove form from screen
+/**
+ * @description Hide forms in website.
+ */
 const hideForm = () => {
   const test = document.querySelector('#dino-compare');
   test.style.display = test.style.display != 'none' ? 'none' : 'block';
 };
 
+/**
+ * @default Add event listener for button click.
+ */
 document.getElementById('btn').addEventListener('click', function () {
   myBusinessLogic(dinosFactory);
 });
 
-// Init dino data.
+/**
+ * Init dino data from local json file when windows is loaded.
+ */
 window.onload = async () => {
   await getDinoData().then((result) => {
     parseDinosToArray(result).forEach((element) => {
