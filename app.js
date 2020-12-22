@@ -1,5 +1,5 @@
 /**
- * @description Compare weight.
+ * @description Compare the weight of a human and a dino and set a new fact related to the comparison.
  * @param {Dino} dino
  * @param {Dino} human
  */
@@ -18,7 +18,7 @@ const compareWeight = (dino, human) => {
 };
 
 /**
- * @description Compare height.
+ * @description Compare the height of a human and a dino and set a new fact related to the comparison.
  * @param {Dino} dino
  * @param {Dino} human
  */
@@ -37,7 +37,7 @@ const compareHeight = (dino, human) => {
 };
 
 /**
- * @description Compare diet.
+ * @description Compare the diet of a human and a dino and set a new fact related to the comparison.
  * @param {Dino} dino
  * @param {Dino} human
  */
@@ -68,7 +68,7 @@ const getDinoData = async () => {
 };
 
 /**
- * @description Parse a json string into an array.
+ * @description Parse the dino json string into a dino array.
  * @param {string} JSON - dinosJSON
  * @returns {Dinos} Array or null
  */
@@ -94,7 +94,7 @@ const parseDinosToArray = (dinosJSON) => {
 };
 
 /**
- * @description Dinos
+ * @description Dinos constructor function.
  * @constructor
  * @param {string} species - The title of the book
  * @param {int} weight - The author of the book
@@ -104,7 +104,6 @@ const parseDinosToArray = (dinosJSON) => {
  * @param {string} when - The author of the book
  * @param {string} fact - The author of the book
  */
-// Create Dino Constructor
 function Dino(species, weight, height, diet, where, when, fact) {
   this.species = species;
   this.weight = weight;
@@ -117,7 +116,7 @@ function Dino(species, weight, height, diet, where, when, fact) {
 }
 
 /**
- * @description Dinos factory function.
+ * @description Dinos factory function. It holds the dino array and some utility functions to handle the dinos.
  * @method addDino Add a dino to array.
  * @method shuffle Shuffles the dino array.
  * @method getDinos Retuurn all dinos.
@@ -147,12 +146,12 @@ const DinosFactory = () => {
 };
 
 /**
- * @description Creates a dino object from DinosFactory.
+ * @description Creates a dino object of DinosFactory. This is the instance we use to work with dino data.
  */
 const dinosFactory = DinosFactory();
 
 /**
- * @description Get human data from forms.
+ * @description Get human data from forms and create a human instance we will return.
  * @returns human object using Dino constructor.
  */
 const getHumanData = () => {
@@ -174,8 +173,8 @@ const getHumanData = () => {
 };
 
 /**
- * @description Business logic for hole app.
- * @param {DinosFactory} dinos
+ * @description Business logic for the hole app.
+ * @param {DinosFactory} dinos - The instance of DinosFactory.
  */
 const myBusinessLogic = (dinos) => {
   const human = getHumanData();
@@ -244,7 +243,7 @@ const hideForm = () => {
 };
 
 /**
- * @default Add event listener for button click.
+ * @default Add event listener for button click
  */
 document.getElementById("btn").addEventListener("click", function () {
   myBusinessLogic(dinosFactory);
@@ -258,7 +257,7 @@ const callBack = () => {
 };
 
 /**
- * Init dino data from local json file when windows is loaded.
+ * @description Init dino data from local json file when windows is loaded.
  */
 window.onload = async () => {
   await getDinoData().then((result) => {
