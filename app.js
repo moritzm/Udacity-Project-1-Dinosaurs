@@ -1,3 +1,7 @@
+const backbutton = document.getElementById("backButton");
+const form = document.forms["dino-compare"];
+const grid = document.getElementById("grid");
+
 /**
  * @description Compare the weight of a human and a dino and set a new fact related to the comparison.
  * @param {Dino} dino
@@ -155,7 +159,6 @@ const dinosFactory = DinosFactory();
  * @returns human object using Dino constructor.
  */
 const getHumanData = () => {
-  const form = document.forms["dino-compare"];
   const name = form.elements.name.value;
   const inches = parseInt(form.elements.inches.value);
   const feet = parseInt(form.elements.feet.value);
@@ -196,8 +199,6 @@ const myBusinessLogic = (dinos) => {
  * @param {Dino} human  - Human object created from Dino.
  */
 const createTiles = (dinos, human) => {
-  const grid = document.getElementById("grid");
-
   dinos.forEach((element, index) => {
     const gridItem = document.createElement("div");
     gridItem.classList.add("grid-item");
@@ -235,31 +236,49 @@ const createTiles = (dinos, human) => {
 };
 
 /**
- * @description Hide forms in website.
+ * @description Hide forms in website and show dinos grid view.
  */
 const hideForm = () => {
-  const test = document.querySelector("#dino-compare");
-  test.style.display = test.style.display != "none" ? "none" : "block";
+  form.style.display = form.style.display !== "none" ? "none" : "block";
+  grid.style.display = grid.style.display !== "none" ? "none" : "flex";
+  backbutton.style.display = "block";
 };
 
 /**
- * @default Add event listener for button click
+ * @description Start to compare human data from form with dinos data.
  */
 document.getElementById("btn").addEventListener("click", function () {
   myBusinessLogic(dinosFactory);
 });
 
 /**
- * @description Callback for event listener.
+ * @description Go back to human form. Hide dinos and clean up human form.
  */
-const callBack = () => {
-  myBusinessLogic(dinosFactory);
-};
+document.getElementById("backButton").addEventListener("click", function () {
+  form.style.display = "block";
+  backbutton.style.display = "none";
+  grid.style.display = "none";
+
+  // We need to remove grid items here, so they will be doubled with every back button click.
+  while (grid.firstChild) {
+    grid.removeChild(grid.firstChild);
+  }
+
+  // empty human form
+  form.elements.name.value = "";
+  form.elements.inches.value = "";
+  form.elements.feet.value = "";
+  form.elements.weight.value = "";
+  form.elements.diet.value = form.elements.diet.options[0].value;
+});
 
 /**
  * @description Init dino data from local json file when windows is loaded.
  */
 window.onload = async () => {
+  backbutton.style.display = "none";
+  grid.style.display = "none";
+
   await getDinoData().then((result) => {
     parseDinosToArray(result).forEach((element) => {
       dinosFactory.addDino(element);
