@@ -181,9 +181,9 @@ const myBusinessLogic = (dinos) => {
   const human = getHumanData();
   dinos.shuffle();
 
-  const randomNumber = Math.floor(Math.random() * 3);
-  const compareMethod = dinos.getCompareMethod(randomNumber);
   dinos.getDinos().forEach((dino) => {
+    const randomNumber = Math.floor(Math.random() * 3);
+    const compareMethod = dinos.getCompareMethod(randomNumber);
     compareMethod(dino, human);
   });
 
