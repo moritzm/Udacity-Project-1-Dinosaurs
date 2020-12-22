@@ -1,59 +1,63 @@
+const backbutton = document.getElementById("backButton");
+const form = document.forms["dino-compare"];
+const grid = document.getElementById("grid");
+
 /**
- * @description Compare weight.
+ * @description Compare the weight of a human and a dino and set a new fact related to the comparison.
  * @param {Dino} dino
  * @param {Dino} human
  */
 const compareWeight = (dino, human) => {
-  if (dino.species === 'Pigeon') {
+  if (dino.species === "Pigeon") {
     return;
   }
 
   if (dino.weight > human.weight * 100) {
-    dino.fact = 'You are like a feather compared this dino, little guy!';
+    dino.fact = "You are like a feather compared this dino, little guy!";
   } else if (dino.weight < human.weight * 100) {
-    dino.fact = 'The dinos diet is much more better then yours.';
+    dino.fact = "The dinos diet is much more better then yours.";
   } else if (dino.weight - 100 < human.weight) {
-    dino.fact = 'Maybe you are related. You eat the same stuff.';
+    dino.fact = "Maybe you are related. You eat the same stuff.";
   }
 };
 
 /**
- * @description Compare height.
+ * @description Compare the height of a human and a dino and set a new fact related to the comparison.
  * @param {Dino} dino
  * @param {Dino} human
  */
 const compareHeight = (dino, human) => {
-  if (dino.species === 'Pigeon') {
+  if (dino.species === "Pigeon") {
     return;
   }
 
   if (dino.height > human.height * 100) {
-    dino.fact = 'Too small. You should get a ladder to feet this big guy.';
+    dino.fact = "Too small. You should get a ladder to feet this big guy.";
   } else if (dino.height < human.height * 100) {
-    dino.fact = 'Uuups...be carefull not to stump onto this cute dino.';
+    dino.fact = "Uuups...be carefull not to stump onto this cute dino.";
   } else if (dino.height - 100 < human.height) {
     dino.fact = "Awesome...you can look into dino's eyes";
   }
 };
 
 /**
- * @description Compare diet.
+ * @description Compare the diet of a human and a dino and set a new fact related to the comparison.
  * @param {Dino} dino
  * @param {Dino} human
  */
 const compareDiet = (dino, human) => {
-  if (dino.species === 'Pigeon') {
+  if (dino.species === "Pigeon") {
     return;
   }
 
   if (dino.diet === human.diet) {
     dino.fact =
-      'You eat the same stuff. Be carefull next time when you go eat outside.';
+      "You eat the same stuff. Be carefull next time when you go eat outside.";
   } else if (dino.diet !== human.diet) {
     dino.fact =
-      'Ok, you do not share your eat, so go out, this dino will not care.';
-  } else if (dino.diet === 'carnivor') {
-    dino.fact = 'Be carefull, this dino might eat you.';
+      "Ok, you do not share your eat, so go out, this dino will not care.";
+  } else if (dino.diet === "carnivor") {
+    dino.fact = "Be carefull, this dino might eat you.";
   }
 };
 
@@ -62,13 +66,13 @@ const compareDiet = (dino, human) => {
  * @returns {Array} Array of Dinos.
  */
 const getDinoData = async () => {
-  const fetchedData = await fetch('./dino.json');
+  const fetchedData = await fetch("./dino.json");
   const data = await fetchedData.json();
   return data.Dinos;
 };
 
 /**
- * @description Parse a json string into an array.
+ * @description Parse the dino json string into a dino array.
  * @param {string} JSON - dinosJSON
  * @returns {Dinos} Array or null
  */
@@ -94,7 +98,7 @@ const parseDinosToArray = (dinosJSON) => {
 };
 
 /**
- * @description Dinos
+ * @description Dinos constructor function.
  * @constructor
  * @param {string} species - The title of the book
  * @param {int} weight - The author of the book
@@ -104,7 +108,6 @@ const parseDinosToArray = (dinosJSON) => {
  * @param {string} when - The author of the book
  * @param {string} fact - The author of the book
  */
-// Create Dino Constructor
 function Dino(species, weight, height, diet, where, when, fact) {
   this.species = species;
   this.weight = weight;
@@ -113,11 +116,11 @@ function Dino(species, weight, height, diet, where, when, fact) {
   this.where = where;
   this.when = when;
   this.fact = fact;
-  this.image = 'images/' + species.toLowerCase() + '.png';
+  this.image = "images/" + species.toLowerCase() + ".png";
 }
 
 /**
- * @description Dinos factory function.
+ * @description Dinos factory function. It holds the dino array and some utility functions to handle the dinos.
  * @method addDino Add a dino to array.
  * @method shuffle Shuffles the dino array.
  * @method getDinos Retuurn all dinos.
@@ -147,16 +150,15 @@ const DinosFactory = () => {
 };
 
 /**
- * @description Creates a dino object from DinosFactory.
+ * @description Creates a dino object of DinosFactory. This is the instance we use to work with dino data.
  */
 const dinosFactory = DinosFactory();
 
 /**
- * @description Get human data from forms.
+ * @description Get human data from forms and create a human instance we will return.
  * @returns human object using Dino constructor.
  */
 const getHumanData = () => {
-  const form = document.forms['dino-compare'];
   const name = form.elements.name.value;
   const inches = parseInt(form.elements.inches.value);
   const feet = parseInt(form.elements.feet.value);
@@ -168,22 +170,22 @@ const getHumanData = () => {
   const human = new Dino(name, weight, feet, myDiet);
   human.feet = feet;
   human.inches = inches;
-  human.image = 'images/human.png';
+  human.image = "images/human.png";
 
   return human;
 };
 
 /**
- * @description Business logic for hole app.
- * @param {DinosFactory} dinos
+ * @description Business logic for the hole app.
+ * @param {DinosFactory} dinos - The instance of DinosFactory.
  */
 const myBusinessLogic = (dinos) => {
   const human = getHumanData();
   dinos.shuffle();
 
-  const randomNumber = Math.floor(Math.random() * 3);
-  const compareMethod = dinos.getCompareMethod(randomNumber);
   dinos.getDinos().forEach((dino) => {
+    const randomNumber = Math.floor(Math.random() * 3);
+    const compareMethod = dinos.getCompareMethod(randomNumber);
     compareMethod(dino, human);
   });
 
@@ -197,37 +199,35 @@ const myBusinessLogic = (dinos) => {
  * @param {Dino} human  - Human object created from Dino.
  */
 const createTiles = (dinos, human) => {
-  const grid = document.getElementById('grid');
-
   dinos.forEach((element, index) => {
-    const gridItem = document.createElement('div');
-    gridItem.classList.add('grid-item');
+    const gridItem = document.createElement("div");
+    gridItem.classList.add("grid-item");
 
     // tile 4 must be the human tile, we check of index 4
     if (index === 4) {
       // human tile
-      const gridItem = document.createElement('div');
-      gridItem.classList.add('grid-item');
+      const gridItem = document.createElement("div");
+      gridItem.classList.add("grid-item");
 
-      const header = document.createElement('h3');
+      const header = document.createElement("h3");
       header.innerText = human.species;
       gridItem.appendChild(header);
 
-      const img = document.createElement('img');
+      const img = document.createElement("img");
       img.src = human.image;
       gridItem.appendChild(img);
       grid.appendChild(gridItem);
     }
     // create dino tile
-    const header = document.createElement('h3');
+    const header = document.createElement("h3");
     header.innerText = element.species;
     gridItem.appendChild(header);
 
-    const img = document.createElement('img');
+    const img = document.createElement("img");
     img.src = element.image;
     gridItem.appendChild(img);
 
-    const p = document.createElement('p');
+    const p = document.createElement("p");
     p.innerText = element.fact;
     gridItem.appendChild(p);
 
@@ -236,31 +236,49 @@ const createTiles = (dinos, human) => {
 };
 
 /**
- * @description Hide forms in website.
+ * @description Hide forms in website and show dinos grid view.
  */
 const hideForm = () => {
-  const test = document.querySelector('#dino-compare');
-  test.style.display = test.style.display != 'none' ? 'none' : 'block';
+  form.style.display = form.style.display !== "none" ? "none" : "block";
+  grid.style.display = grid.style.display !== "none" ? "none" : "flex";
+  backbutton.style.display = "block";
 };
 
 /**
- * @default Add event listener for button click.
+ * @description Start to compare human data from form with dinos data.
  */
-document.getElementById('btn').addEventListener('click', function () {
+document.getElementById("btn").addEventListener("click", function () {
   myBusinessLogic(dinosFactory);
 });
 
 /**
- * @description Callback for event listener.
+ * @description Go back to human form. Hide dinos and clean up human form.
  */
-const callBack = () => {
-  myBusinessLogic(dinosFactory);
-};
+document.getElementById("backButton").addEventListener("click", function () {
+  form.style.display = "block";
+  backbutton.style.display = "none";
+  grid.style.display = "none";
+
+  // We need to remove grid items here, so they will be doubled with every back button click.
+  while (grid.firstChild) {
+    grid.removeChild(grid.firstChild);
+  }
+
+  // empty human form
+  form.elements.name.value = "";
+  form.elements.inches.value = "";
+  form.elements.feet.value = "";
+  form.elements.weight.value = "";
+  form.elements.diet.value = form.elements.diet.options[0].value;
+});
 
 /**
- * Init dino data from local json file when windows is loaded.
+ * @description Init dino data from local json file when windows is loaded.
  */
 window.onload = async () => {
+  backbutton.style.display = "none";
+  grid.style.display = "none";
+
   await getDinoData().then((result) => {
     parseDinosToArray(result).forEach((element) => {
       dinosFactory.addDino(element);
